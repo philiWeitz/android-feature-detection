@@ -1,3 +1,8 @@
+# ignore the opencv libraries
+distribution/3rdparty
+distribution/opencv
+
+
 # Built application files
 *.apk
 *.ap_
@@ -35,6 +40,10 @@ captures/
 # Intellij
 *.iml
 .idea/workspace.xml
+.idea
 
 # Keystore files
 *.jks
+
+# JNI
+.externalNativeBuild
