@@ -1,25 +1,22 @@
 package sandbox.org.featuredetection.activity;
 
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-import android.view.TextureView;
+import android.view.SurfaceView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.ByteArrayOutputStream;
-
 import sandbox.org.featuredetection.camera.CameraWrapper;
+import sandbox.org.featuredetection.camera.CameraWrapperOldAPI;
+import sandbox.org.featuredetection.camera.ICameraWrapper;
 import sandbox.org.featuredetection.jni.NativeWrapper;
 
 public class MainActivity extends AppCompatActivity {
 
-    private TextureView textureView;
-    private CameraWrapper mCameraWrapper;
+    private SurfaceView surfaceView;
+    private ICameraWrapper mCameraWrapper;
 
 
     @Override
@@ -29,8 +26,10 @@ public class MainActivity extends AppCompatActivity {
 
         TextView messages = (TextView) findViewById(R.id.messages);
 
-        textureView = (TextureView) findViewById(R.id.texture);
-        mCameraWrapper = new CameraWrapper(this, textureView, messages);
+        surfaceView = (SurfaceView) findViewById(R.id.previewSurfaceView);
+
+        mCameraWrapper = new CameraWrapperOldAPI(this, surfaceView, messages);
+        //mCameraWrapper = new CameraWrapper(this, surfaceView, messages);
 
         NativeWrapper.initializeFeatureDetection(this);
     }
@@ -53,18 +52,13 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-
-        mCameraWrapper.startBackgroundThread();
-
-        if (textureView.isAvailable()) {
-            mCameraWrapper.openCamera();
-        }
+        mCameraWrapper.resumeCamera();
     }
 
 
     @Override
     protected void onPause() {
-        mCameraWrapper.stopBackgroundThread();
+        mCameraWrapper.pauseCamera();
         super.onPause();
     }
 }

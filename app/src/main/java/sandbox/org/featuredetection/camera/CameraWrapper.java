@@ -24,7 +24,8 @@ import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 import android.util.Size;
 import android.view.Surface;
-import android.view.TextureView;
+import android.view.SurfaceHolder;
+import android.view.SurfaceView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,7 +35,7 @@ import java.util.List;
 
 import sandbox.org.featuredetection.jni.NativeWrapper;
 
-public class CameraWrapper {
+public class CameraWrapper implements ICameraWrapper {
 
     private static final String TAG = "CameraWrapper";
     public static final int REQUEST_CAMERA_PERMISSION = 200;
@@ -44,7 +45,7 @@ public class CameraWrapper {
     private Size mImageDimension;
 
     private CameraDevice mCameraDevice;
-    private TextureView mTextureView;
+    private SurfaceView mSurfaceView;
     private CaptureRequest.Builder mPreviewRequestBuilder;
 
     private ImageReader mImageReader;
@@ -53,14 +54,28 @@ public class CameraWrapper {
     private HandlerThread mBackgroundThread;
 
     private TextView mMessages;
+    private boolean processing = false;
 
 
-    public CameraWrapper(Activity activity, TextureView textureView, TextView messages) {
+    public CameraWrapper(Activity activity, SurfaceView surfaceView, TextView messages) {
         mActivity = activity;
-        mTextureView = textureView;
+        mSurfaceView = surfaceView;
         mMessages = messages;
 
-        mTextureView.setSurfaceTextureListener(mSurfaceTextureListener);
+        mSurfaceView.getHolder().addCallback(mSurfaceHolderCallback);
+    }
+
+
+    @Override
+    public void resumeCamera() {
+        startBackgroundThread();
+        //openCamera();
+    }
+
+
+    @Override
+    public void pauseCamera() {
+        stopBackgroundThread();
     }
 
 
@@ -69,33 +84,55 @@ public class CameraWrapper {
         public void onImageAvailable(ImageReader imageReader) {
             Image img = imageReader.acquireLatestImage();
 
-            // checks if the image is valid
-            if (null != img && img.getPlanes().length > 0) {
+            if (!processing) {
 
-                // converts the jpg image into byte array
-                final ByteBuffer buffer = img.getPlanes()[0].getBuffer();
-                final byte[] data = new byte[buffer.capacity()];
-                buffer.get(data);
+                // checks if the image is valid
+                if (null != img && img.getPlanes().length > 0) {
+                    processing = true;
 
-                // TODO: quick way of displaying the number of matches
-                final int matches = NativeWrapper.processImage(data);
+                    // converts the jpg image into byte array
+                    final ByteBuffer buffer = img.getPlanes()[0].getBuffer();
+                    final byte[] data = new byte[buffer.capacity()];
+                    buffer.get(data);
 
-                mActivity.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (matches >= 10) {
-                            mMessages.setText("Number of matches: " + matches + " -> Image is there!");
-                        } else {
-                            mMessages.setText("Number of matches: " + matches);
-                        }
-                    }
-                });
+                    new Handler().post(new ImageProcessingRunnable(data));
+                }
+            }
 
-                // release the image
+            // release the image
+            if (null != img) {
                 img.close();
             }
         }
     };
+
+
+    private class ImageProcessingRunnable implements Runnable {
+        private byte[] mJpegByteArray;
+
+        public ImageProcessingRunnable(byte[] jpgByteArray) {
+            mJpegByteArray = jpgByteArray;
+        }
+
+        @Override
+        public void run() {
+            // TODO: quick way of displaying the number of matches
+            final int matches = NativeWrapper.processImage(mJpegByteArray);
+
+            mActivity.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    if (matches >= 10) {
+                        mMessages.setText("Number of matches: " + matches + " -> Image is there!");
+                    } else {
+                        mMessages.setText("Number of matches: " + matches);
+                    }
+
+                    processing = false;
+                }
+            });
+        }
+    }
 
 
     public void openCamera() {
@@ -109,6 +146,9 @@ public class CameraWrapper {
 
             // store characteristics
             mImageDimension = map.getOutputSizes(SurfaceTexture.class)[0];
+
+            // set the surface dimensions
+            mSurfaceView.getHolder().setFixedSize(mImageDimension.getWidth(), mImageDimension.getHeight());
 
             // Add permission for camera and let user grant the permission
             if (ActivityCompat.checkSelfPermission(mActivity, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
@@ -150,9 +190,7 @@ public class CameraWrapper {
     private void createCameraPreview() {
         try {
             // creates a surface for the preview
-            SurfaceTexture texture = mTextureView.getSurfaceTexture();
-            texture.setDefaultBufferSize(mImageDimension.getWidth(), mImageDimension.getHeight());
-            Surface textureSurface = new Surface(texture);
+            Surface textureSurface = mSurfaceView.getHolder().getSurface();
 
             // creates the image reader to process preview frames
             mImageReader = ImageReader.newInstance(
@@ -198,11 +236,13 @@ public class CameraWrapper {
         }
     }
 
+
     public void startBackgroundThread() {
         mBackgroundThread = new HandlerThread("Camera Background");
         mBackgroundThread.start();
         mBackgroundHandler = new Handler(mBackgroundThread.getLooper());
     }
+
 
     public void stopBackgroundThread() {
         mBackgroundThread.quitSafely();
@@ -215,26 +255,22 @@ public class CameraWrapper {
         }
     }
 
-    // surface listener for preview - only opens the camera if ready
-    private TextureView.SurfaceTextureListener mSurfaceTextureListener = new TextureView.SurfaceTextureListener() {
+
+    private SurfaceHolder.Callback mSurfaceHolderCallback = new SurfaceHolder.Callback() {
         @Override
-        public void onSurfaceTextureAvailable(SurfaceTexture surface, int width, int height) {
+        public void surfaceCreated(SurfaceHolder surfaceHolder) {
             //open your camera here
             openCamera();
         }
 
         @Override
-        public void onSurfaceTextureSizeChanged(SurfaceTexture surface, int width, int height) {
-            // Transform you image captured size according to the surface width and height
+        public void surfaceChanged(SurfaceHolder surfaceHolder, int i, int i1, int i2) {
+
         }
 
         @Override
-        public boolean onSurfaceTextureDestroyed(SurfaceTexture surface) {
-            return false;
-        }
+        public void surfaceDestroyed(SurfaceHolder surfaceHolder) {
 
-        @Override
-        public void onSurfaceTextureUpdated(SurfaceTexture surface) {
         }
     };
 }
