@@ -1,6 +1,9 @@
 package sandbox.org.featuredetection.activity;
 
 import android.content.pm.PackageManager;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -10,6 +13,7 @@ import android.widget.Toast;
 
 import sandbox.org.featuredetection.camera.CameraWrapper;
 import sandbox.org.featuredetection.camera.CameraWrapperOldAPI;
+import sandbox.org.featuredetection.camera.CanvasView;
 import sandbox.org.featuredetection.camera.ICameraWrapper;
 import sandbox.org.featuredetection.jni.NativeWrapper;
 
@@ -27,8 +31,9 @@ public class MainActivity extends AppCompatActivity {
         TextView messages = (TextView) findViewById(R.id.messages);
 
         surfaceView = (SurfaceView) findViewById(R.id.previewSurfaceView);
+        CanvasView canvasView = (CanvasView) findViewById(R.id.overlayCanvasView);
 
-        mCameraWrapper = new CameraWrapperOldAPI(this, surfaceView, messages);
+        mCameraWrapper = new CameraWrapperOldAPI(this, surfaceView, canvasView, messages);
         //mCameraWrapper = new CameraWrapper(this, surfaceView, messages);
 
         NativeWrapper.initializeFeatureDetection(this);

@@ -2,12 +2,17 @@ package sandbox.org.featuredetection.camera;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.ImageFormat;
+import android.graphics.Paint;
+import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.YuvImage;
 import android.hardware.Camera;
 import android.os.Handler;
 import android.util.Log;
+import android.util.Pair;
 import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -15,6 +20,7 @@ import android.view.WindowManager;
 import android.widget.TextView;
 
 import java.io.ByteArrayOutputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 import sandbox.org.featuredetection.jni.NativeWrapper;
@@ -29,13 +35,18 @@ public class CameraWrapperOldAPI implements ICameraWrapper {
     private Camera mCamera;
     private Activity mCtx;
     private SurfaceView mPreview;
+    private CanvasView mCanvasView;
     private TextView mMessages;
     private Camera.CameraInfo mCameraInfo = new Camera.CameraInfo();
 
+    private int mX = 0;
+    private int mY = 0;
 
-    public CameraWrapperOldAPI(Activity ctx, SurfaceView previewSurfaceView, TextView messages) {
+
+    public CameraWrapperOldAPI(Activity ctx, SurfaceView previewSurfaceView, CanvasView canvasView, TextView messages) {
         mCtx = ctx;
         mPreview = previewSurfaceView;
+        mCanvasView = canvasView;
         mMessages = messages;
 
         mPreview.getHolder().addCallback(mSurfaceHolderCallback);
@@ -222,20 +233,16 @@ public class CameraWrapperOldAPI implements ICameraWrapper {
         @Override
         public void run() {
             // TODO: quick way of displaying the number of matches
-            final int matches = NativeWrapper.processImage(mJpegByteArray);
+            int matches = NativeWrapper.processImage(mJpegByteArray);
+            int[] framePoints = NativeWrapper.getFramePoints();
 
-            mCtx.runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    if (matches >= 10) {
-                        mMessages.setText("Number of matches: " + matches + " -> Image is there!");
-                    } else {
-                        mMessages.setText("Number of matches: " + matches);
-                    }
 
-                    mProcessPreviewFrame = true;
-                }
-            });
+            mCanvasView.setFramePoints(framePoints);
+            mCanvasView.invalidate();
+
+            mMessages.setText("Number of matches: " + matches);
+
+            mProcessPreviewFrame = true;
         }
     }
 }

@@ -48,4 +48,6 @@ public class NativeWrapper {
     public static native int processImage(byte[] imgArray);
 
     public static native void setTemplateImage(byte[] imgArray);
+
+    public static native int[] getFramePoints();
 }

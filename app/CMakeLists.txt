@@ -31,7 +31,9 @@ add_library(libopencv_flann STATIC IMPORTED)
 set_target_properties(libopencv_flann PROPERTIES IMPORTED_LOCATION
     ${DISTRIBUTION_DIR}/opencv/libs/${ANDROID_ABI}/libopencv_flann.a)
 
-
+add_library(libopencv_calib3d STATIC IMPORTED)
+set_target_properties(libopencv_calib3d PROPERTIES IMPORTED_LOCATION
+    ${DISTRIBUTION_DIR}/opencv/libs/${ANDROID_ABI}/libopencv_calib3d.a)
 
 add_library(libtbb STATIC IMPORTED)
 set_target_properties(libtbb PROPERTIES IMPORTED_LOCATION
@@ -79,6 +81,7 @@ find_library(log-lib log)
 
 ##### combine everything
 target_link_libraries(native-lib
+                      libopencv_calib3d
                       libopencv_flann
                       libopencv_features2d
                       libopencv_imgcodecs
