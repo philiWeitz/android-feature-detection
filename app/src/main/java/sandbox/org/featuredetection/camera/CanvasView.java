@@ -8,6 +8,7 @@ import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.Rect;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.util.Pair;
 import android.view.View;
 
@@ -39,7 +40,7 @@ public class CanvasView extends View {
         mFramePoints.clear();
 
         for(int i = 0; i < framePoints.length-1; i += 2) {
-            mFramePoints.add(new Pair<Integer, Integer>(framePoints[i+1],framePoints[i]));
+            mFramePoints.add(new Pair<>(framePoints[i+1],framePoints[i]));
         }
     }
 
@@ -62,12 +63,19 @@ public class CanvasView extends View {
     }
 
 
+    long startTime = 0;
+
     @Override
     public void onDraw(Canvas c) {
+
+        long stopTime = System.currentTimeMillis();
+        Log.e("PERF", "On Draw: " + (stopTime - startTime));
+        startTime = System.currentTimeMillis();
+
         mCanvas.drawColor(0, PorterDuff.Mode.CLEAR);
 
         Paint paint = new Paint();
-        paint.setStrokeWidth(10);
+        paint.setStrokeWidth(8);
         paint.setColor(Color.RED);
 
         //draw onto the mCanvas if needed (maybe only the parts of animation that changed)

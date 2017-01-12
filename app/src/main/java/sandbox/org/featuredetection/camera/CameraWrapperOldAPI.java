@@ -2,17 +2,11 @@ package sandbox.org.featuredetection.camera;
 
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.ImageFormat;
-import android.graphics.Paint;
-import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.YuvImage;
 import android.hardware.Camera;
-import android.os.Handler;
 import android.util.Log;
-import android.util.Pair;
 import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -20,7 +14,6 @@ import android.view.WindowManager;
 import android.widget.TextView;
 
 import java.io.ByteArrayOutputStream;
-import java.util.ArrayList;
 import java.util.List;
 
 import sandbox.org.featuredetection.jni.NativeWrapper;
@@ -35,7 +28,7 @@ public class CameraWrapperOldAPI implements ICameraWrapper {
     private Camera mCamera;
     private Activity mCtx;
     private SurfaceView mPreview;
-    private CanvasView mCanvasView;
+    private CanvasSurfaceView mCanvasSurfaceView;
     private TextView mMessages;
     private Camera.CameraInfo mCameraInfo = new Camera.CameraInfo();
 
@@ -43,10 +36,11 @@ public class CameraWrapperOldAPI implements ICameraWrapper {
     private int mY = 0;
 
 
-    public CameraWrapperOldAPI(Activity ctx, SurfaceView previewSurfaceView, CanvasView canvasView, TextView messages) {
+    public CameraWrapperOldAPI(Activity ctx, SurfaceView previewSurfaceView,
+                               CanvasSurfaceView canvasSurfaceView, TextView messages) {
         mCtx = ctx;
         mPreview = previewSurfaceView;
-        mCanvasView = canvasView;
+        mCanvasSurfaceView = canvasSurfaceView;
         mMessages = messages;
 
         mPreview.getHolder().addCallback(mSurfaceHolderCallback);
@@ -188,12 +182,17 @@ public class CameraWrapperOldAPI implements ICameraWrapper {
         }
     }
 
+    private long perfTimer = 0;
 
     private Camera.PreviewCallback mPreviewCallback = new Camera.PreviewCallback() {
         @Override
         public void onPreviewFrame(byte[] bytes, Camera camera) {
             if(mProcessPreviewFrame) {
                 mProcessPreviewFrame = false;
+
+                long perfNow = System.currentTimeMillis();
+                Log.e("PERF","PERF JAVA: " + (perfNow-perfTimer));
+                perfTimer = System.currentTimeMillis();
 
                 // get YUV image
                 Camera.Parameters parameters = camera.getParameters();
@@ -209,9 +208,16 @@ public class CameraWrapperOldAPI implements ICameraWrapper {
 
                 // convert YUV to JPEG byte array
                 ByteArrayOutputStream jpegStream = new ByteArrayOutputStream();
-                image.compressToJpeg(rectangle, 100, jpegStream);
+                image.compressToJpeg(rectangle, 90, jpegStream);
 
-                new Handler().post(new ImageProcessingRunnable(jpegStream.toByteArray()));
+                int matches = NativeWrapper.processImage(jpegStream.toByteArray());
+                int[] framePoints = NativeWrapper.getFramePoints();
+
+                mCanvasSurfaceView.setFramePoints(framePoints);
+                mCanvasSurfaceView.tryDrawing();
+
+                mMessages.setText("Number of matches: " + matches);
+                mProcessPreviewFrame = true;
 
                 try {
                     jpegStream.close();
@@ -221,28 +227,4 @@ public class CameraWrapperOldAPI implements ICameraWrapper {
             }
         }
     };
-
-
-    private class ImageProcessingRunnable implements Runnable {
-        private byte[] mJpegByteArray;
-
-        public ImageProcessingRunnable(byte[] jpgByteArray) {
-            mJpegByteArray = jpgByteArray;
-        }
-
-        @Override
-        public void run() {
-            // TODO: quick way of displaying the number of matches
-            int matches = NativeWrapper.processImage(mJpegByteArray);
-            int[] framePoints = NativeWrapper.getFramePoints();
-
-
-            mCanvasView.setFramePoints(framePoints);
-            mCanvasView.invalidate();
-
-            mMessages.setText("Number of matches: " + matches);
-
-            mProcessPreviewFrame = true;
-        }
-    }
 }
