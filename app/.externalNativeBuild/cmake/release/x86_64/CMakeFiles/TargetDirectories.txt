@@ -1,3 +1,0 @@
-D:/Projects/FeatureDetection/android-feature-detection/app/.externalNativeBuild/cmake/release/x86_64/CMakeFiles/native-lib.dir
-D:/Projects/FeatureDetection/android-feature-detection/app/.externalNativeBuild/cmake/release/x86_64/CMakeFiles/edit_cache.dir
-D:/Projects/FeatureDetection/android-feature-detection/app/.externalNativeBuild/cmake/release/x86_64/CMakeFiles/rebuild_cache.dir
