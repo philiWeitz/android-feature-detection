@@ -1,6 +1,7 @@
 package sandbox.org.featuredetection.camera;
 
 import android.app.Activity;
+import android.app.admin.SystemUpdatePolicy;
 import android.content.Context;
 import android.graphics.ImageFormat;
 import android.graphics.Rect;
@@ -20,7 +21,6 @@ import sandbox.org.featuredetection.jni.NativeWrapper;
 
 
 public class CameraWrapperOldAPI implements ICameraWrapper {
-
     private static final String TAG = "CameraOldAPI";
 
     private boolean mProcessPreviewFrame = true;
@@ -32,8 +32,7 @@ public class CameraWrapperOldAPI implements ICameraWrapper {
     private TextView mMessages;
     private Camera.CameraInfo mCameraInfo = new Camera.CameraInfo();
 
-    private int mX = 0;
-    private int mY = 0;
+    private long mCallbackPerfTimer = 0;
 
 
     public CameraWrapperOldAPI(Activity ctx, SurfaceView previewSurfaceView,
@@ -71,7 +70,8 @@ public class CameraWrapperOldAPI implements ICameraWrapper {
             for (int cameraIdx = 0; cameraIdx < Camera.getNumberOfCameras(); ++cameraIdx) {
                 Camera.getCameraInfo(cameraIdx, mCameraInfo);
 
-                if(mCameraInfo.facing == Camera.CameraInfo.CAMERA_FACING_BACK) {
+                if(mCameraInfo.facing == Camera.CameraInfo.CAMERA_FACING_BACK
+                        || mCameraInfo.facing == Camera.CameraInfo.CAMERA_FACING_FRONT) {
                     // open front facing camera
                     try {
                         mCamera = Camera.open(cameraIdx);
@@ -182,7 +182,6 @@ public class CameraWrapperOldAPI implements ICameraWrapper {
         }
     }
 
-    private long perfTimer = 0;
 
     private Camera.PreviewCallback mPreviewCallback = new Camera.PreviewCallback() {
         @Override
@@ -191,8 +190,8 @@ public class CameraWrapperOldAPI implements ICameraWrapper {
                 mProcessPreviewFrame = false;
 
                 long perfNow = System.currentTimeMillis();
-                Log.e("PERF","PERF JAVA: " + (perfNow-perfTimer));
-                perfTimer = System.currentTimeMillis();
+                Log.e(TAG,"Performance Preview Callback: " + (perfNow - mCallbackPerfTimer));
+                mCallbackPerfTimer = System.currentTimeMillis();
 
                 // get YUV image
                 Camera.Parameters parameters = camera.getParameters();
