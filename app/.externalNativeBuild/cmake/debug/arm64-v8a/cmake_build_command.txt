@@ -1,0 +1,15 @@
+Executable : D:\Programs\AndroidSDK\cmake\3.6.3155560\bin\cmake.exe
+arguments : 
+-HD:\Projects\FeatureDetection\android-feature-detection\app
+-BD:\Projects\FeatureDetection\android-feature-detection\app\.externalNativeBuild\cmake\debug\arm64-v8a
+-GAndroid Gradle - Ninja
+-DANDROID_ABI=arm64-v8a
+-DANDROID_NDK=D:\Programs\AndroidSDK\ndk-bundle
+-DCMAKE_LIBRARY_OUTPUT_DIRECTORY=D:\Projects\FeatureDetection\android-feature-detection\app\build\intermediates\cmake\debug\obj\arm64-v8a
+-DCMAKE_BUILD_TYPE=Debug
+-DCMAKE_MAKE_PROGRAM=D:\Programs\AndroidSDK\cmake\3.6.3155560\bin\ninja.exe
+-DCMAKE_TOOLCHAIN_FILE=D:\Programs\AndroidSDK\ndk-bundle\build\cmake\android.toolchain.cmake
+-DANDROID_NATIVE_API_LEVEL=21
+-DCMAKE_BUILD_TYPE=Release
+jvmArgs : 
+

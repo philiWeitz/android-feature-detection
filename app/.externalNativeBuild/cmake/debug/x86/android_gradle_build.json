@@ -1,0 +1,145 @@
+
+{
+	"buildFiles" : 
+	[
+		"D:/Projects/FeatureDetection/android-feature-detection/app/CMakeLists.txt"
+	],
+	"cleanCommands" : 
+	[
+		"D:\\Programs\\AndroidSDK\\cmake\\3.6.3155560\\bin\\cmake.exe --build D:\\Projects\\FeatureDetection\\android-feature-detection\\app\\.externalNativeBuild\\cmake\\debug\\x86 --target clean"
+	],
+	"cppFileExtensions" : [ "cpp" ],
+	"libraries" : 
+	{
+		"libIlmImf-Release-x86" : 
+		{
+			"abi" : "x86",
+			"artifactName" : "libIlmImf",
+			"buildType" : "release",
+			"output" : "D:/Projects/FeatureDetection/android-feature-detection/app/../distribution//3rdparty/libs/x86/libIlmImf.a",
+			"toolchain" : "3694474285"
+		},
+		"liblibjasper-Release-x86" : 
+		{
+			"abi" : "x86",
+			"artifactName" : "liblibjasper",
+			"buildType" : "release",
+			"output" : "D:/Projects/FeatureDetection/android-feature-detection/app/../distribution//3rdparty/libs/x86/liblibjasper.a",
+			"toolchain" : "3694474285"
+		},
+		"liblibjpeg-Release-x86" : 
+		{
+			"abi" : "x86",
+			"artifactName" : "liblibjpeg",
+			"buildType" : "release",
+			"output" : "D:/Projects/FeatureDetection/android-feature-detection/app/../distribution//3rdparty/libs/x86/liblibjpeg.a",
+			"toolchain" : "3694474285"
+		},
+		"liblibpng-Release-x86" : 
+		{
+			"abi" : "x86",
+			"artifactName" : "liblibpng",
+			"buildType" : "release",
+			"output" : "D:/Projects/FeatureDetection/android-feature-detection/app/../distribution//3rdparty/libs/x86/liblibpng.a",
+			"toolchain" : "3694474285"
+		},
+		"liblibtiff-Release-x86" : 
+		{
+			"abi" : "x86",
+			"artifactName" : "liblibtiff",
+			"buildType" : "release",
+			"output" : "D:/Projects/FeatureDetection/android-feature-detection/app/../distribution//3rdparty/libs/x86/liblibtiff.a",
+			"toolchain" : "3694474285"
+		},
+		"liblibwebp-Release-x86" : 
+		{
+			"abi" : "x86",
+			"artifactName" : "liblibwebp",
+			"buildType" : "release",
+			"output" : "D:/Projects/FeatureDetection/android-feature-detection/app/../distribution//3rdparty/libs/x86/liblibwebp.a",
+			"toolchain" : "3694474285"
+		},
+		"libopencv_calib3d-Release-x86" : 
+		{
+			"abi" : "x86",
+			"artifactName" : "libopencv_calib3d",
+			"buildType" : "release",
+			"output" : "D:/Projects/FeatureDetection/android-feature-detection/app/../distribution//opencv/libs/x86/libopencv_calib3d.a",
+			"toolchain" : "3694474285"
+		},
+		"libopencv_core-Release-x86" : 
+		{
+			"abi" : "x86",
+			"artifactName" : "libopencv_core",
+			"buildType" : "release",
+			"output" : "D:/Projects/FeatureDetection/android-feature-detection/app/../distribution//opencv/libs/x86/libopencv_core.a",
+			"toolchain" : "3694474285"
+		},
+		"libopencv_features2d-Release-x86" : 
+		{
+			"abi" : "x86",
+			"artifactName" : "libopencv_features2d",
+			"buildType" : "release",
+			"output" : "D:/Projects/FeatureDetection/android-feature-detection/app/../distribution//opencv/libs/x86/libopencv_features2d.a",
+			"toolchain" : "3694474285"
+		},
+		"libopencv_flann-Release-x86" : 
+		{
+			"abi" : "x86",
+			"artifactName" : "libopencv_flann",
+			"buildType" : "release",
+			"output" : "D:/Projects/FeatureDetection/android-feature-detection/app/../distribution//opencv/libs/x86/libopencv_flann.a",
+			"toolchain" : "3694474285"
+		},
+		"libopencv_imgcodecs-Release-x86" : 
+		{
+			"abi" : "x86",
+			"artifactName" : "libopencv_imgcodecs",
+			"buildType" : "release",
+			"output" : "D:/Projects/FeatureDetection/android-feature-detection/app/../distribution//opencv/libs/x86/libopencv_imgcodecs.a",
+			"toolchain" : "3694474285"
+		},
+		"libopencv_imgproc-Release-x86" : 
+		{
+			"abi" : "x86",
+			"artifactName" : "libopencv_imgproc",
+			"buildType" : "release",
+			"output" : "D:/Projects/FeatureDetection/android-feature-detection/app/../distribution//opencv/libs/x86/libopencv_imgproc.a",
+			"toolchain" : "3694474285"
+		},
+		"libtbb-Release-x86" : 
+		{
+			"abi" : "x86",
+			"artifactName" : "libtbb",
+			"buildType" : "release",
+			"output" : "D:/Projects/FeatureDetection/android-feature-detection/app/../distribution//3rdparty/libs/x86/libtbb.a",
+			"toolchain" : "3694474285"
+		},
+		"native-lib-Release-x86" : 
+		{
+			"abi" : "x86",
+			"artifactName" : "native-lib",
+			"buildCommand" : "D:\\Programs\\AndroidSDK\\cmake\\3.6.3155560\\bin\\cmake.exe --build D:\\Projects\\FeatureDetection\\android-feature-detection\\app\\.externalNativeBuild\\cmake\\debug\\x86 --target native-lib",
+			"buildType" : "release",
+			"files" : 
+			[
+				
+				{
+					"flags" : "  -target i686-none-linux-android -gcc-toolchain D:/Programs/AndroidSDK/ndk-bundle/toolchains/x86-4.9/prebuilt/windows-x86_64 --sysroot=D:/Programs/AndroidSDK/ndk-bundle/platforms/android-17/arch-x86  -Dnative_lib_EXPORTS -I..\\..\\..\\..\\..\\distribution\\opencv\\include -isystem D:\\Programs\\AndroidSDK\\ndk-bundle\\sources\\cxx-stl\\gnu-libstdc++\\4.9\\include -isystem D:\\Programs\\AndroidSDK\\ndk-bundle\\sources\\cxx-stl\\gnu-libstdc++\\4.9\\libs\\x86\\include -isystem D:\\Programs\\AndroidSDK\\ndk-bundle\\sources\\cxx-stl\\gnu-libstdc++\\4.9\\include\\backward  -g -DANDROID -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -Wa,--noexecstack -Wformat -Werror=format-security -fno-exceptions -fno-rtti -g -DANDROID -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -Wa,--noexecstack -Wformat -Werror=format-security -fno-exceptions -fno-rtti  -O2 -DNDEBUG -O2 -DNDEBUG  -fPIC    -c ",
+					"src" : "D:/Projects/FeatureDetection/android-feature-detection/app/src/main/cpp/native-lib.cpp",
+					"workingDirectory" : "D:/Projects/FeatureDetection/android-feature-detection/app/.externalNativeBuild/cmake/debug/x86"
+				}
+			],
+			"output" : "D:/Projects/FeatureDetection/android-feature-detection/app/build/intermediates/cmake/debug/obj/x86/libnative-lib.so",
+			"toolchain" : "3694474285"
+		}
+	},
+	"toolchains" : 
+	{
+		"3694474285" : 
+		{
+			"cCompilerExecutable" : "D:/Programs/AndroidSDK/ndk-bundle/toolchains/llvm/prebuilt/windows-x86_64/bin/clang.exe",
+			"cppCompilerExecutable" : "D:/Programs/AndroidSDK/ndk-bundle/toolchains/llvm/prebuilt/windows-x86_64/bin/clang++.exe"
+		}
+	}
+}

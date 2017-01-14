@@ -1,0 +1,145 @@
+
+{
+	"buildFiles" : 
+	[
+		"D:/Projects/FeatureDetection/android-feature-detection/app/CMakeLists.txt"
+	],
+	"cleanCommands" : 
+	[
+		"D:\\Programs\\AndroidSDK\\cmake\\3.6.3155560\\bin\\cmake.exe --build D:\\Projects\\FeatureDetection\\android-feature-detection\\app\\.externalNativeBuild\\cmake\\debug\\armeabi --target clean"
+	],
+	"cppFileExtensions" : [ "cpp" ],
+	"libraries" : 
+	{
+		"libIlmImf-Release-armeabi" : 
+		{
+			"abi" : "armeabi",
+			"artifactName" : "libIlmImf",
+			"buildType" : "release",
+			"output" : "D:/Projects/FeatureDetection/android-feature-detection/app/../distribution//3rdparty/libs/armeabi/libIlmImf.a",
+			"toolchain" : "3694474285"
+		},
+		"liblibjasper-Release-armeabi" : 
+		{
+			"abi" : "armeabi",
+			"artifactName" : "liblibjasper",
+			"buildType" : "release",
+			"output" : "D:/Projects/FeatureDetection/android-feature-detection/app/../distribution//3rdparty/libs/armeabi/liblibjasper.a",
+			"toolchain" : "3694474285"
+		},
+		"liblibjpeg-Release-armeabi" : 
+		{
+			"abi" : "armeabi",
+			"artifactName" : "liblibjpeg",
+			"buildType" : "release",
+			"output" : "D:/Projects/FeatureDetection/android-feature-detection/app/../distribution//3rdparty/libs/armeabi/liblibjpeg.a",
+			"toolchain" : "3694474285"
+		},
+		"liblibpng-Release-armeabi" : 
+		{
+			"abi" : "armeabi",
+			"artifactName" : "liblibpng",
+			"buildType" : "release",
+			"output" : "D:/Projects/FeatureDetection/android-feature-detection/app/../distribution//3rdparty/libs/armeabi/liblibpng.a",
+			"toolchain" : "3694474285"
+		},
+		"liblibtiff-Release-armeabi" : 
+		{
+			"abi" : "armeabi",
+			"artifactName" : "liblibtiff",
+			"buildType" : "release",
+			"output" : "D:/Projects/FeatureDetection/android-feature-detection/app/../distribution//3rdparty/libs/armeabi/liblibtiff.a",
+			"toolchain" : "3694474285"
+		},
+		"liblibwebp-Release-armeabi" : 
+		{
+			"abi" : "armeabi",
+			"artifactName" : "liblibwebp",
+			"buildType" : "release",
+			"output" : "D:/Projects/FeatureDetection/android-feature-detection/app/../distribution//3rdparty/libs/armeabi/liblibwebp.a",
+			"toolchain" : "3694474285"
+		},
+		"libopencv_calib3d-Release-armeabi" : 
+		{
+			"abi" : "armeabi",
+			"artifactName" : "libopencv_calib3d",
+			"buildType" : "release",
+			"output" : "D:/Projects/FeatureDetection/android-feature-detection/app/../distribution//opencv/libs/armeabi/libopencv_calib3d.a",
+			"toolchain" : "3694474285"
+		},
+		"libopencv_core-Release-armeabi" : 
+		{
+			"abi" : "armeabi",
+			"artifactName" : "libopencv_core",
+			"buildType" : "release",
+			"output" : "D:/Projects/FeatureDetection/android-feature-detection/app/../distribution//opencv/libs/armeabi/libopencv_core.a",
+			"toolchain" : "3694474285"
+		},
+		"libopencv_features2d-Release-armeabi" : 
+		{
+			"abi" : "armeabi",
+			"artifactName" : "libopencv_features2d",
+			"buildType" : "release",
+			"output" : "D:/Projects/FeatureDetection/android-feature-detection/app/../distribution//opencv/libs/armeabi/libopencv_features2d.a",
+			"toolchain" : "3694474285"
+		},
+		"libopencv_flann-Release-armeabi" : 
+		{
+			"abi" : "armeabi",
+			"artifactName" : "libopencv_flann",
+			"buildType" : "release",
+			"output" : "D:/Projects/FeatureDetection/android-feature-detection/app/../distribution//opencv/libs/armeabi/libopencv_flann.a",
+			"toolchain" : "3694474285"
+		},
+		"libopencv_imgcodecs-Release-armeabi" : 
+		{
+			"abi" : "armeabi",
+			"artifactName" : "libopencv_imgcodecs",
+			"buildType" : "release",
+			"output" : "D:/Projects/FeatureDetection/android-feature-detection/app/../distribution//opencv/libs/armeabi/libopencv_imgcodecs.a",
+			"toolchain" : "3694474285"
+		},
+		"libopencv_imgproc-Release-armeabi" : 
+		{
+			"abi" : "armeabi",
+			"artifactName" : "libopencv_imgproc",
+			"buildType" : "release",
+			"output" : "D:/Projects/FeatureDetection/android-feature-detection/app/../distribution//opencv/libs/armeabi/libopencv_imgproc.a",
+			"toolchain" : "3694474285"
+		},
+		"libtbb-Release-armeabi" : 
+		{
+			"abi" : "armeabi",
+			"artifactName" : "libtbb",
+			"buildType" : "release",
+			"output" : "D:/Projects/FeatureDetection/android-feature-detection/app/../distribution//3rdparty/libs/armeabi/libtbb.a",
+			"toolchain" : "3694474285"
+		},
+		"native-lib-Release-armeabi" : 
+		{
+			"abi" : "armeabi",
+			"artifactName" : "native-lib",
+			"buildCommand" : "D:\\Programs\\AndroidSDK\\cmake\\3.6.3155560\\bin\\cmake.exe --build D:\\Projects\\FeatureDetection\\android-feature-detection\\app\\.externalNativeBuild\\cmake\\debug\\armeabi --target native-lib",
+			"buildType" : "release",
+			"files" : 
+			[
+				
+				{
+					"flags" : "  -target armv5te-none-linux-androideabi -gcc-toolchain D:/Programs/AndroidSDK/ndk-bundle/toolchains/arm-linux-androideabi-4.9/prebuilt/windows-x86_64 --sysroot=D:/Programs/AndroidSDK/ndk-bundle/platforms/android-17/arch-arm  -Dnative_lib_EXPORTS -I..\\..\\..\\..\\..\\distribution\\opencv\\include -isystem D:\\Programs\\AndroidSDK\\ndk-bundle\\sources\\cxx-stl\\gnu-libstdc++\\4.9\\include -isystem D:\\Programs\\AndroidSDK\\ndk-bundle\\sources\\cxx-stl\\gnu-libstdc++\\4.9\\libs\\armeabi\\include -isystem D:\\Programs\\AndroidSDK\\ndk-bundle\\sources\\cxx-stl\\gnu-libstdc++\\4.9\\include\\backward  -g -DANDROID -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -march=armv5te -mtune=xscale -msoft-float -fno-integrated-as -mthumb -Wa,--noexecstack -Wformat -Werror=format-security -fno-exceptions -fno-rtti -g -DANDROID -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -march=armv5te -mtune=xscale -msoft-float -fno-integrated-as -mthumb -Wa,--noexecstack -Wformat -Werror=format-security -fno-exceptions -fno-rtti  -Os -DNDEBUG -Os -DNDEBUG  -fPIC    -c ",
+					"src" : "D:/Projects/FeatureDetection/android-feature-detection/app/src/main/cpp/native-lib.cpp",
+					"workingDirectory" : "D:/Projects/FeatureDetection/android-feature-detection/app/.externalNativeBuild/cmake/debug/armeabi"
+				}
+			],
+			"output" : "D:/Projects/FeatureDetection/android-feature-detection/app/build/intermediates/cmake/debug/obj/armeabi/libnative-lib.so",
+			"toolchain" : "3694474285"
+		}
+	},
+	"toolchains" : 
+	{
+		"3694474285" : 
+		{
+			"cCompilerExecutable" : "D:/Programs/AndroidSDK/ndk-bundle/toolchains/llvm/prebuilt/windows-x86_64/bin/clang.exe",
+			"cppCompilerExecutable" : "D:/Programs/AndroidSDK/ndk-bundle/toolchains/llvm/prebuilt/windows-x86_64/bin/clang++.exe"
+		}
+	}
+}
