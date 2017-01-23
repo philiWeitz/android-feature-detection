@@ -66,6 +66,7 @@ set_target_properties(libIlmImf PROPERTIES IMPORTED_LOCATION
 
 ##### builds the final native library
 add_library(native-lib SHARED
+            ${SRC_DIR}/ImageRecognizer.cpp
             ${SRC_DIR}/native-lib.cpp)
 
 

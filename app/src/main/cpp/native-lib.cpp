@@ -36,9 +36,13 @@ vector<Point2f> featurePoints;
 int gaussSigma = 3;
 int gaussKSize = (gaussSigma * 3) | 1;
 
+Size offset;
+Rect searchWindow;
+bool windowMode;
 
 void resizeImage(Mat *pImg, double maxImageSize);
 void extractGoodKeyPoints(vector<KeyPoint> *pKeyPoints);
+bool extractSearchWindow(Mat *pImage, Rect *pSearchArea, Size *pOffset);
 
 void extractImageDescriptors(JNIEnv *env, jbyteArray *pImgByteArray,
                              Mat *imgDescriptors, vector<KeyPoint> *keyPoints, double maxImageDim = -1);
@@ -155,9 +159,6 @@ Java_sandbox_org_featuredetection_jni_NativeWrapper_processImage(
         featurePointBuffer = 0;
         featurePoints = calculateCorners(&good_matches, &keyPoints, &templateKeyPoints);
 
-        //templateDescriptors = imgDescriptors;
-        //templateKeyPoints = keyPoints;
-
     } else if(featurePointBuffer < MAX_FEATURE_POINTS_BUFFER_SIZE) {
         ++featurePointBuffer;
     } else {
@@ -201,14 +202,24 @@ void extractImageDescriptors(JNIEnv *env, jbyteArray *pImgByteArray, Mat *imgDes
     vector<char> imgVector(imgArray, imgArray + len);
     *pImage = imdecode(imgVector, IMREAD_COLOR);
 
+    // convert to gray image
+    cvtColor(*pImage, *pImage, CV_BGR2GRAY);
+
     // resize the image but keep the ratio
     if(maxImageDim > 0) {
         resizeImage(pImage, maxImageDim);
     }
 
-    // convert to gray image
-    cvtColor(*pImage, *pImage, CV_BGR2GRAY);
+    // extract the search window
+    offset = Size(0,0);
+    windowMode = extractSearchWindow(pImage, &searchWindow, &offset);
 
+    if (windowMode) {
+        // get the window
+        *pImage = Mat(*pImage, searchWindow);
+    }
+
+    // blur the image
     if(blurFilter) {
         GaussianBlur(*pImage, *pImage, Size(gaussKSize, gaussKSize), gaussSigma, gaussSigma);
     }
@@ -265,6 +276,14 @@ vector<Point2f> calculateCorners(vector<DMatch> *pGoodMatches, vector<KeyPoint> 
     // calculate the perspective change to get the corners of the input image
     perspectiveTransform(obj_corners, scene_corners, H);
 
+    // if windwo mode is active -> add the offset
+    if (windowMode) {
+        for (int i = 0; i < scene_corners.size(); ++i) {
+            scene_corners[i].x += offset.width;
+            scene_corners[i].y += offset.height;
+        }
+    }
+
     return scene_corners;
 }
 
@@ -287,3 +306,39 @@ void extractGoodKeyPoints(vector<KeyPoint> *pKeyPoints) {
     *pKeyPoints = extraced;
 }
 
+
+bool extractSearchWindow(Mat *pImage, Rect *pSearchArea, Size *pOffset) {
+    float xMax = 0, yMax = 0;
+    float xMin = 10000, yMin = 10000;
+
+    bool result = true;
+
+    if (featurePoints.size() >= 4) {
+        for (int i = 0; i < featurePoints.size(); ++i) {
+            xMin = min(xMin, featurePoints[i].x);
+            xMax = max(xMax, featurePoints[i].x);
+            yMin = min(yMin, featurePoints[i].y);
+            yMax = max(yMax, featurePoints[i].y);
+        }
+
+        xMin = max((float)0, (float) (xMin * 0.8));
+        yMin = max((float)0, (float) (yMin * 0.8));
+        xMax = min(pImage->cols - xMin,(float) ((xMax - xMin) * 1.2));
+        yMax = min(pImage->rows - yMin,(float) ((yMax - yMin) * 1.2));
+
+        *pSearchArea = Rect(xMin,yMin,xMax,yMax);
+        if (pSearchArea->width < 50 || pSearchArea->height < 50) {
+            result = false;
+        }
+        else {
+            *pOffset = Size(xMin, yMin);
+        }
+    }
+    else {
+        result = false;
+        // return the whole image
+        *pSearchArea = Rect(0, 0, pImage->cols, pImage->rows);
+    }
+
+    return result;
+}

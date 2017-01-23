@@ -47,3 +47,11 @@ captures/
 
 # JNI
 .externalNativeBuild
+
+# CMake
+CMakeFiles/
+rules.ninja
+build.ninja
+cmake_install.cmake
+CMakeCache.txt
+android_gradle_build.json

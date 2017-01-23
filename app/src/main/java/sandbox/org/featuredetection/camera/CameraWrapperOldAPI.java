@@ -98,6 +98,7 @@ public class CameraWrapperOldAPI implements ICameraWrapper {
                 mCamera.stopPreview();
                 setCameraPreviewOrientation();
                 setOptimalPreviewSize(width, height);
+                setOptimalFrameRate();
                 mCamera.setPreviewCallback(mPreviewCallback);
                 mCamera.startPreview();
             }
@@ -129,6 +130,20 @@ public class CameraWrapperOldAPI implements ICameraWrapper {
         int angle = (mCameraInfo.orientation + degrees) % 360;
         angle = (360 - angle) % 360;
         mCamera.setDisplayOrientation(angle);
+    }
+
+
+    private void setOptimalFrameRate() {
+        int maxFrameRate = 0;
+        for(int frameRate : mCamera.getParameters().getSupportedPreviewFrameRates()) {
+            maxFrameRate = Math.max(maxFrameRate, frameRate);
+        }
+
+        if(maxFrameRate > 0) {
+            Camera.Parameters param = mCamera.getParameters();
+            param.setPreviewFrameRate(maxFrameRate);
+            mCamera.setParameters(param);
+        }
     }
 
 
@@ -211,6 +226,9 @@ public class CameraWrapperOldAPI implements ICameraWrapper {
 
                 int matches = NativeWrapper.processImage(jpegStream.toByteArray());
                 int[] framePoints = NativeWrapper.getFramePoints();
+
+                //int blur = NativeWrapper.getBlurFactor(jpegStream.toByteArray());
+                //Log.e("BLUR DETECT","Blur: " + blur + " - Matches: " + matches);
 
                 mCanvasSurfaceView.setFramePoints(framePoints);
                 mCanvasSurfaceView.tryDrawing();
