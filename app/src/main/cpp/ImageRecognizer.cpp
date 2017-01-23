@@ -34,7 +34,7 @@ bool ImageRecognizer::getFramePoints(jint *pointArray) {
 }
 
 
-void ImageRecognizer::setTemplateImage(jbyte* imgArray, jsize len) {
+void ImageRecognizer::setTemplateImage(const jbyte* imgArray, const jsize len) {
     Mat templateImage;
 
     // get the image descriptors and key points
@@ -50,7 +50,7 @@ void ImageRecognizer::setTemplateImage(jbyte* imgArray, jsize len) {
 }
 
 
-int ImageRecognizer::processImage(jbyte* imgArray, jsize len) {
+int ImageRecognizer::processImage(const jbyte* imgArray, const jsize len) {
     // start performance clock
     clock_t tStart = clock();
 
@@ -110,7 +110,7 @@ int ImageRecognizer::processImage(jbyte* imgArray, jsize len) {
 }
 
 
-void ImageRecognizer::extractImageDescriptors(jbyte* imgArray, jsize len,
+void ImageRecognizer::extractImageDescriptors(const jbyte* imgArray, const jsize len,
         Mat *imgDescriptors, vector<KeyPoint> *keyPoints, double maxImageDim) {
 
     Mat image;
@@ -122,7 +122,7 @@ void ImageRecognizer::extractImageDescriptors(jbyte* imgArray, jsize len,
 }
 
 
-void ImageRecognizer::extractImageDescriptors(jbyte* imgArray, jsize len, Mat *imgDescriptors,
+void ImageRecognizer::extractImageDescriptors(const jbyte* imgArray, const jsize len, Mat *imgDescriptors,
         vector<KeyPoint> *keyPoints, Mat *pImage, double maxImageDim, bool blurFilter) {
 
     // create a mat object from the jpg byte array
@@ -188,7 +188,7 @@ void ImageRecognizer::resizeImage(Mat *pImage, double maxImageSize) {
 }
 
 
-bool ImageRecognizer::extractSearchWindow(Mat *pImage) {
+bool ImageRecognizer::extractSearchWindow(const Mat *pImage) {
     float xMax = 0, yMax = 0;
     float xMin = 10000, yMin = 10000;
 
@@ -222,7 +222,8 @@ bool ImageRecognizer::extractSearchWindow(Mat *pImage) {
 }
 
 
-vector<Point2f> ImageRecognizer::calculateCorners(vector<DMatch> *pGoodMatches, vector<KeyPoint> *pKeyPointsScene) {
+vector<Point2f> ImageRecognizer::calculateCorners(const vector<DMatch> *pGoodMatches,
+                                                  const vector<KeyPoint> *pKeyPointsScene) {
 
     std::vector<Point2f> framePoints;
     std::vector<Point2f> templatePoints;

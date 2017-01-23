@@ -14,6 +14,8 @@ import sandbox.org.featuredetection.activity.R;
 
 public class NativeWrapper {
 
+    private static long sHandle;
+
     // Used to load the 'native-lib' library on application startup.
     static {
         System.loadLibrary("native-lib");
@@ -22,7 +24,7 @@ public class NativeWrapper {
 
     public static void initializeFeatureDetection(Activity activity) {
         // create the BRISKD and flann matcher
-        NativeWrapper.initFeatureDetection();
+        sHandle = NativeWrapper.initFeatureDetection();
 
         // loads a static template image
         BitmapFactory.Options options = new BitmapFactory.Options();
@@ -34,7 +36,17 @@ public class NativeWrapper {
         bm.compress(Bitmap.CompressFormat.JPEG, 100, jpegStream);
 
         // extracts the features from the template image
-        NativeWrapper.setTemplateImage(jpegStream.toByteArray());
+        setTemplateImage(sHandle, jpegStream.toByteArray());
+    }
+
+
+    public static int processImage(byte[] imgArray) {
+        return processImage(sHandle, imgArray);
+    }
+
+
+    public static int[] getFramePoints() {
+        return getFramePoints(sHandle);
     }
 
 
@@ -43,11 +55,13 @@ public class NativeWrapper {
     }
 
 
-    private static native void initFeatureDetection();
+    private static native long initFeatureDetection();
 
-    public static native int processImage(byte[] imgArray);
+    public static native int processImage(long handle, byte[] imgArray);
 
-    public static native void setTemplateImage(byte[] imgArray);
+    public static native void setTemplateImage(long handle, byte[] imgArray);
 
-    public static native int[] getFramePoints();
+    public static native int[] getFramePoints(long handle);
+
+    public static native void destroyHandle(long handle);
 }

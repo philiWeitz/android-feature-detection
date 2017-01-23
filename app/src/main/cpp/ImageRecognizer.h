@@ -34,9 +34,9 @@ public:
     ~ImageRecognizer();
 
     // matches a JPEG image against a template image
-    int processImage(jbyte* imgArray, jsize len);
+    int processImage(const jbyte* imgArray, const jsize len);
     // sets a template image
-    void setTemplateImage(jbyte* imgArray, jsize len);
+    void setTemplateImage(const jbyte* imgArray, const jsize len);
     // creates the BRISK extractor and brute force matcher
     void initExtractorAndMatcher();
     // returns the last recognized frame points
@@ -45,21 +45,21 @@ public:
 private:
 
     // resizes the image but keeps the ratio
-    void resizeImage(cv::Mat *pImage, double maxImageSize);
+    void resizeImage(cv::Mat *pImage, const double maxImageSize);
     // extract the search window if a previous recognition was successful
-    bool extractSearchWindow(cv::Mat *pImage);
+    bool extractSearchWindow(const cv::Mat *pImage);
 
     // extracts the image key points and descriptors
-    void extractImageDescriptors(jbyte* imgArray, jsize len, cv::Mat *imgDescriptors,
+    void extractImageDescriptors(const jbyte* imgArray, const jsize len, cv::Mat *imgDescriptors,
         std::vector<cv::KeyPoint> *keyPoints, double maxImageDim = -1);
 
     // extracts the image key points and descriptors and offers a gauss blur option
-    void extractImageDescriptors(jbyte* imgArray, jsize len, cv::Mat *imgDescriptors,
+    void extractImageDescriptors(const jbyte* imgArray, const jsize len, cv::Mat *imgDescriptors,
         std::vector<cv::KeyPoint> *keyPoints, cv::Mat *pImage, double maxImageDim = -1, bool blurFilter = false);
 
     // extracts the corners of a found image match
-    std::vector<cv::Point2f> calculateCorners(std::vector<cv::DMatch> *pGoodMatches,
-        std::vector<cv::KeyPoint> *pKeyPointsScene);
+    std::vector<cv::Point2f> calculateCorners(const std::vector<cv::DMatch> *pGoodMatches,
+        const std::vector<cv::KeyPoint> *pKeyPointsScene);
 
     // private variables
     int detectedCornersBuffer = 0;
@@ -70,7 +70,6 @@ private:
     cv::Size searchWindowOffset;
     cv::Rect searchWindow;
     bool windowModeActive;
-
 
     TEMPLATE_IMAGE templateData;
 
