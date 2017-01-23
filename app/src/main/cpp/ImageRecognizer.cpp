@@ -7,12 +7,30 @@ using namespace std;
 
 ImageRecognizer::ImageRecognizer()
 {
-    initExtractorAndMatcher();
+
 }
 
 
 ImageRecognizer::~ImageRecognizer()
 {
+}
+
+
+bool ImageRecognizer::getFramePoints(jint *pointArray) {
+
+    if(detectedCorners.size() >= 4) {
+        pointArray[0] = detectedCorners[0].x;
+        pointArray[1] = detectedCorners[0].y;
+        pointArray[2] = detectedCorners[1].x;
+        pointArray[3] = detectedCorners[1].y;
+        pointArray[4] = detectedCorners[2].x;
+        pointArray[5] = detectedCorners[2].y;
+        pointArray[6] = detectedCorners[3].x;
+        pointArray[7] = detectedCorners[3].y;
+
+        return true;
+    }
+    return false;
 }
 
 

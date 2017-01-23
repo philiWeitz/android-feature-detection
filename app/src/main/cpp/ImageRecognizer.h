@@ -37,11 +37,13 @@ public:
     int processImage(jbyte* imgArray, jsize len);
     // sets a template image
     void setTemplateImage(jbyte* imgArray, jsize len);
+    // creates the BRISK extractor and brute force matcher
+    void initExtractorAndMatcher();
+    // returns the last recognized frame points
+    bool getFramePoints(jint *pointArray);
 
 private:
 
-    // creates the BRISK extractor and brute force matcher
-    void initExtractorAndMatcher();
     // resizes the image but keeps the ratio
     void resizeImage(cv::Mat *pImage, double maxImageSize);
     // extract the search window if a previous recognition was successful
